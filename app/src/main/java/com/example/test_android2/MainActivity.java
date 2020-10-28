@@ -43,16 +43,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // 전체화면인 팝업윈도우 위에 올려질 웹뷰
                 WebView webview = new WebView(MainActivity.this);
                 webview.setWebViewClient(new WebViewClient());
                 webview.loadUrl("https://google.com");
 
+                // 전체화면인 팝업윈도우 위에 올려질 웹뷰용 레이아웃
                 RelativeLayout layout = new RelativeLayout(MainActivity.this);
                 layout.setLayoutParams(new ViewGroup.LayoutParams(500, 500));
                 layout.setX(700);
                 layout.setY(200);
                 layout.addView(webview);
 
+                // 팝업윈도우를 전체화면으로 만든다.
+                // 팝업윈도우 밑 메인액티비티의 터치이벤트는 발생하지 않게 된다.
+                // 팝업윈도우가 포커스 가능해야 하위 웹뷰 input 포커스시 팝업키보드가 뜬다.
                 popupWindow = new PopupWindow(view);
                 popupWindow.setWindowLayoutMode(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.setFocusable(true);
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
 
-                        // 팝업윈도우에 터치이벤트가 발생하면 메인 액티비티의 터치이벤트를 발생시킨다.
+                        // 팝업윈도우 터치이벤트가 발생했을 때, 메인 액티비티의 터치이벤트를 발생시킨다.
                         MainActivity.this.dispatchTouchEvent(event);
                         return false;
                     }
